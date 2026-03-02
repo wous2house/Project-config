@@ -1,0 +1,5 @@
+{
+  "name": "Webdroids Project Configurator",
+  "description": "Een interactief formulier voor projectaanvragen met conditionele logica gebaseerd op de flowchart.",
+  "requestFramePermissions": []
+}
