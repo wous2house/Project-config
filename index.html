@@ -1,13 +1,91 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Webdroids - Project Configurator</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="nl">
+    <head>
+
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TS7FKVFB');</script>
+    <!-- End Google Tag Manager -->
+    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:url" content="https://webdroids.nl" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:title" content="Webdroids" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image" content="https://webdroids.nl/assets/img/illustrations/Webdroids-meta.png" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:secure_url" content="https://webdroids.nl/assets/img/illustrations/Webdroids-meta.png" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:description" content="Webdroids - ontwerp, ontwikkeling en onderhoud. Wij regelen het ontwerp, de ontwikkeling én het onderhoud van je online merk. Samen sleutelen we van idee naar product. 'These are the droids you're looking for.'" />
+        <meta prefix="og: http://ogp.me/ns#" property="twitter:title" content="Webdroids" />
+        <meta prefix="og: http://ogp.me/ns#" property="twitter:description" content="Webdroids - ontwerp, ontwikkeling en onderhoud. Wij regelen het ontwerp, de ontwikkeling én het onderhoud van je online merk. Samen sleutelen we van idee naar product. 'These are the droids you're looking for.'" />
+        <meta prefix="og: http://ogp.me/ns#" property="twitter:image" content="https://webdroids.nl/assets/img/illustrations/Webdroids-meta.png" />
+        <meta prefix="og: http://ogp.me/ns#" property="twitter:card" content="summary_large_image" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:type" content="website" />
+        
+        <link rel="apple-touch-icon" sizes="180x180" href="https://webdroids.nl/assets/img/brand/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://webdroids.nl/assets/img/brand/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://webdroids.nl/assets/img/brand/favicon/favicon-16x16.png">
+        <link rel="manifest" href="https://webdroids.nl/assets/img/brand/favicon/site.webmanifest">
+        <link rel="mask-icon" href="https://webdroids.nl/assets/img/brand/favicon/safari-pinned-tab.svg" color="#3e77e9">
+        <link rel="shortcut icon" href="https://webdroids.nl/assets/img/brand/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#3e77e9">
+        <meta name="msapplication-config" content="https://webdroids.nl/assets/img/brand/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">    
+        
+        <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@500;700&family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
+        <link href="https://webdroids.nl/assets/css/fontdroid.css" rel="stylesheet" type="text/css" media="all" />    
+        
+        <link rel="stylesheet" href="https://webdroids.nl/assets/css/libs.bundle.css" />
+        <link rel="stylesheet" href="https://webdroids.nl/assets/css/theme.bundle.css" />
+        <link rel="stylesheet" href="https://webdroids.nl/assets/css/colordroid.css">
+        <link rel="stylesheet" href="https://webdroids.nl/assets/css/sliderdroid.css">
+        <link rel="stylesheet" href="https://webdroids.nl/assets/css/styledroid.css">
+
+        <title>Webdroids - ontwerp, ontwikkeling en onderhoud</title>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(function(){
+            $("#header").load("https://webdroids.nl/header/index.html");          
+            $("#footer").load("https://webdroids.nl/footer/index.html");            
+        });
+        </script>        
+    
+    </head>
+    <body id="project-config" class="sub bg-light">
+
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TS7FKVFB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+      
+        <div id="header"></div>
+
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+           
+        <div id="footer"></div>
+
+        <script src="https://webdroids.nl/assets/js/vendor.bundle.js"></script>    
+        <script src="https://webdroids.nl/assets/js/theme.bundle.js"></script>
+
+        <script>
+            function checkScroll(){
+                var header = $(".navbar");
+                if ($(window).scrollTop() >= 50) {
+                    header.addClass("navbar-stick");
+                } else {
+                    header.removeClass("navbar-stick");
+                }
+            }
+            $(document).ready(function() {
+                checkScroll();
+                $(window).scroll(checkScroll);
+            });
+        </script>
+
+    </body>
 </html>
 

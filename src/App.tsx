@@ -265,21 +265,24 @@ export default function App() {
     selectedFunctionalities.forEach(funcId => {
       const func = FUNCTIONALITIES.find(f => f.id === funcId);
       if (func) {
-        // Do not add to total (one-time costs)
+        // Add one-time costs for specific functionalities
+        if (func.id === 'ats') {
+          total += func.price || 0;
+        }
         functionalitiesYearly += func.yearlyPrice || 0;
       }
     });
 
     if (currentMaintenance) {
-      // Do not add to total (one-time costs)
-      
       // If a maintenance package is selected, the total yearly cost is exactly the maintenance package cost
-      yearly += currentMaintenance.yearlyPrice || 0;
+      yearly = currentMaintenance.yearlyPrice || 0;
     } else {
       // If no maintenance package is selected, add up the other yearly costs
       if (selectedSiteType === 'werken-bij' && currentSize && ['small', 'medium', 'large'].includes(currentSize.id)) {
         yearly += 165; // Mandatory yearly license fee for Werken-bij sites (only for Small, Medium, Large)
       }
+      
+      // Functionalities yearly costs are only added if no maintenance package is selected
       yearly += functionalitiesYearly;
     }
     
@@ -1049,8 +1052,8 @@ export default function App() {
                           <span className="text-xs text-slate-500">jaarlijks excl. BTW</span>
                           <div className="group relative flex items-center">
                             <Info size={14} className="text-slate-400 cursor-help" />
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-xs text-slate-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30 text-center">
-                              Dit bevat jaarlijkse licentiekosten voor tools en/of jaarlijkse kosten voor onderhoud
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2 bg-slate-800 text-xs text-slate-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30 text-center">
+                              Jaarlijkse licentiekosten voor tools en/of jaarlijkse onderhoudskosten. De kosten voor het eerste jaar zit al inbegrepen in de prijs
                               <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
                             </div>
                           </div>
