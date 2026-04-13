@@ -54,22 +54,32 @@ async function startServer() {
     try {
       const { email, toelichting, summary, totalPrice, totalYearly, isCorporate } = req.body;
 
+      const smtpHost = process.env.SMTP_HOST;
+      const smtpUser = process.env.SMTP_USER;
+      const smtpPass = process.env.SMTP_PASS;
+      const smtpPort = parseInt(process.env.SMTP_PORT || "587", 10);
+      const receiverEmail = process.env.RECEIVER_EMAIL || smtpUser;
+
+      if (!smtpHost || !smtpUser || !smtpPass) {
+        return res.status(500).json({ success: false, message: "Server e-mail configuratie is niet volledig." });
+      }
+
       // Nodemailer transporter setup
       const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "mail.webdroids.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465, // true for 465, false for other ports
         auth: {
-          user: process.env.SMTP_USER || "aanvraag@webdroids.nl",
-          pass: process.env.SMTP_PASS,
+          user: smtpUser,
+          pass: smtpPass,
         },
       });
 
       // Email content
       const mailOptions = {
-        from: '"Webdroids Aanvraag" <aanvraag@webdroids.nl>',
-        to: email ? `aanvraag@webdroids.nl, ${email}` : "aanvraag@webdroids.nl",
-        subject: "Nieuwe Project Aanvraag - Webdroids",
+        from: `"Project Aanvraag" <${smtpUser}>`,
+        to: email ? `${receiverEmail}, ${email}` : receiverEmail,
+        subject: "Nieuwe Project Aanvraag",
         html: `
           <h2>Nieuwe Project Aanvraag</h2>
           <p>Er is een nieuwe aanvraag binnengekomen via de configurator.</p>

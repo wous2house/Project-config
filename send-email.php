@@ -34,8 +34,7 @@ $formattedPrice = number_format($totalPrice, 2, ',', '.');
 $formattedYearly = number_format($totalYearly, 2, ',', '.');
 
 // 5. Bouw de e-mail op
-$to = "aanvraag@webdroids.nl";
-$subject = "Nieuwe Project Aanvraag - Webdroids";
+$subject = "Nieuwe Project Aanvraag";
 
 $message = "
 <html>
@@ -108,9 +107,17 @@ $mail = new PHPMailer(true);
 
 try {
     // Haal SMTP gegevens op uit environment
-    $smtpHost = getenv('SMTP_HOST') ?: 'mail.webdroids.com';
-    $smtpUser = getenv('SMTP_USER') ?: 'aanvraag@webdroids.nl';
+    $smtpHost = getenv('SMTP_HOST');
+    $smtpUser = getenv('SMTP_USER');
     $smtpPass = getenv('SMTP_PASS');
+    $smtpPort = getenv('SMTP_PORT') ?: 587;
+    $receiverEmail = getenv('RECEIVER_EMAIL') ?: $smtpUser;
+
+    if (!$smtpHost || !$smtpUser || !$smtpPass) {
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Server e-mail configuratie is niet volledig."]);
+        exit();
+    }
 
     // Server instellingen
     $mail->isSMTP();                                            // Gebruik SMTP
@@ -118,12 +125,12 @@ try {
     $mail->SMTPAuth   = true;                                   // Activeer SMTP authenticatie
     $mail->Username   = $smtpUser;                              // SMTP gebruikersnaam
     $mail->Password   = $smtpPass;                              // SMTP wachtwoord
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryptie; `PHPMailer::ENCRYPTION_SMTPS` (poort 465) wordt ook vaak gebruikt
-    $mail->Port       = 587;                                    // TCP poort om te verbinden
+    $mail->SMTPSecure = ($smtpPort == 465) ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryptie; `PHPMailer::ENCRYPTION_SMTPS` (poort 465) wordt ook vaak gebruikt
+    $mail->Port       = $smtpPort;                              // TCP poort om te verbinden
 
     // Ontvangers
-    $mail->setFrom('aanvraag@webdroids.nl', 'Webdroids Aanvraag');
-    $mail->addAddress($to);                                     // Voeg een ontvanger toe
+    $mail->setFrom($smtpUser, 'Project Aanvraag');
+    $mail->addAddress($receiverEmail);                          // Voeg een ontvanger toe
 
     // CC toevoegen als de gebruiker een e-mail heeft ingevuld
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
