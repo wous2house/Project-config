@@ -4,6 +4,9 @@ import nodemailer from "nodemailer";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Ensure pdfs directory exists
 const pdfsDir = path.join(process.cwd(), "save-pdf");
@@ -53,12 +56,12 @@ async function startServer() {
 
       // Nodemailer transporter setup
       const transporter = nodemailer.createTransport({
-        host: "mail.webdroids.com",
+        host: process.env.SMTP_HOST || "mail.webdroids.com",
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: "aanvraag@webdroids.nl",
-          pass: "h63_1o0uR4!",
+          user: process.env.SMTP_USER || "aanvraag@webdroids.nl",
+          pass: process.env.SMTP_PASS,
         },
       });
 
