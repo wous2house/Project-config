@@ -73,7 +73,25 @@ $message .= "
 </html>
 ";
 
-// 6. PHPMailer instellen
+// 6. Load .env file
+$envPath = __DIR__ . '/.env';
+if (file_exists($envPath)) {
+    $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+        if (strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) {
+            $value = substr($value, 1, -1);
+        }
+        putenv(sprintf('%s=%s', $name, $value));
+        $_ENV[$name] = $value;
+        $_SERVER[$name] = $value;
+    }
+}
+
+// 7. PHPMailer instellen
 // Zorg ervoor dat je de PHPMailer bestanden op je server hebt staan, bijvoorbeeld in een 'PHPMailer' map.
 // Download PHPMailer van: https://github.com/PHPMailer/PHPMailer
 // En pas de paden hieronder aan naar waar ze op jouw server staan.
@@ -89,12 +107,17 @@ require 'PHPMailer/src/SMTP.php';
 $mail = new PHPMailer(true);
 
 try {
+    // Haal SMTP gegevens op uit environment
+    $smtpHost = getenv('SMTP_HOST') ?: 'mail.webdroids.com';
+    $smtpUser = getenv('SMTP_USER') ?: 'aanvraag@webdroids.nl';
+    $smtpPass = getenv('SMTP_PASS');
+
     // Server instellingen
     $mail->isSMTP();                                            // Gebruik SMTP
-    $mail->Host       = 'mail.webdroids.com';                   // SMTP server
+    $mail->Host       = $smtpHost;                              // SMTP server
     $mail->SMTPAuth   = true;                                   // Activeer SMTP authenticatie
-    $mail->Username   = 'aanvraag@webdroids.nl';                // SMTP gebruikersnaam
-    $mail->Password   = 'h63_1o0uR4!';                          // SMTP wachtwoord
+    $mail->Username   = $smtpUser;                              // SMTP gebruikersnaam
+    $mail->Password   = $smtpPass;                              // SMTP wachtwoord
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryptie; `PHPMailer::ENCRYPTION_SMTPS` (poort 465) wordt ook vaak gebruikt
     $mail->Port       = 587;                                    // TCP poort om te verbinden
 
